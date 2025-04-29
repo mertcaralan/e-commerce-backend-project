@@ -2,8 +2,9 @@
     if (isset($_POST["email"], $_POST["name"], $_POST["password"], $_POST["city"], $_POST["district"])) 
     {
         require_once 'db.php';
-        $stmt = $db->prepare("insert into market_users (email, name, password, city, district) values (?, ?, ?, ?, ?)");
-        $stmt->execute([$_POST["email"], $_POST["name"], $_POST["password"], $_POST["city"], $_POST["district"]]);
+        $newid = 1 + $db->query("select * from users")->rowCount();
+        $stmt = $db->prepare("insert into users (userid, type, name, email, password, city, district) values (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$newid, 'M', $_POST["email"], $_POST["name"], $_POST["password"], $_POST["city"], $_POST["district"]]);
     }
 ?>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <style>
-        body{display: flex; justify-content: center; align-items: center;}
+        body {display: flex; justify-content: center; align-items: center;}
     </style>
 </head>
 <body>
