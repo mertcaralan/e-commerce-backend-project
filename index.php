@@ -56,6 +56,11 @@
       background-color: #388e3c;
     }
 
+    footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #9e9e9e;
+    }
   </style>
 </head>
 <body>
@@ -63,8 +68,10 @@
     <header>
       <h1>A Sustainability e-Commerce Project</h1>
       <a href="login.php">Login</a>
-      <a href="signUp.php">Sign Up</a>
+      <a href="./signUp.php?type=Market">Register Market</a>
+      <a href="./signUp.php?type=Consumer">Register Consumer</a>
     </header>
+   
   </div>
 </body>
 </html>
