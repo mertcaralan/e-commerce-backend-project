@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Nunito Sans", sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 100%;
+    max-width: 350px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-family: "Cal Sans", sans-serif;
+    font-weight: 300;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+td {
+    padding: 12px 10px;
+    font-size: 14px;
+}
+
+td:first-of-type {
+    width: 100px;
+}
+
+.interface {
+    display: block;
+}
+
+button {
+    border: 0;
+    box-shadow: 0 0 12px 2px #42ff42;
+    background: linear-gradient(to bottom, #52de75 5%, #3ed643 100%);
+    border-radius: 18px;
+    display: block;
+    cursor: pointer;
+    color: #fff;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 15px;
+    padding: 6px 20px;
+    text-shadow: 0px 0px 0px #3c7a32;
+    margin: 35px auto;
+    transition: .3s ease;
+}
+
+button:hover {
+    background-color: #3ed643;
+}
+
+button:active {
+    position: relative;
+    top: 1px;
+}
+
+input {
+    outline: none;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: .3s ease;
+}
+
+input:focus {
+    background: #F2F2F2;
+    border: 1px solid #5A7EC7;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+    font-family: "Nunito Sans", sans-serif;
+    border-radius: 15px;
+    border: 1px solid #007BFF;
+    padding: 8px 16px;
+    transition: .3s ease;
+}
+
+a:hover {
+    background-color: #e2e2e2;
+}
+
+ul {
+    padding-left: 0;
+    margin-top: 20px;
+}
+
+.err {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f44336; /* Kırmızı hata rengi */
+    background-color: rgba(244, 67, 54, 0.1); /* Hafif kırmızı arka plan */
+    padding: 10px;
+    border-left: 4px solid #f44336; /* Sol tarafta kalın kırmızı bir çizgi */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.err:hover {
+    transform: scale(1.05); /* Mesaj üzerine gelindiğinde hafif büyür */
+}
+
+li {
+    margin-top: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.error_msg {
+    background-color: #fff;
+    padding: 8px;
+    border: 1px solid #f44336;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #f44336;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.error_msg:before {
+    content: "\26A0"; /* Uyarı ikonu */
+    font-size: 18px;
+    color: #f44336;
+}
+
+.error_msg p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f44336;
+}
+
