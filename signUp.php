@@ -9,17 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 $errors = [];
 $old = ['email' => '', 'name' => '', 'city' => '', 'district' => ''];
 
-// Debugging: Display session data
-if (session_status() === PHP_SESSION_ACTIVE) {
-    $debug[] = 'Session is active';
-    $debug[] = 'Session test: ' . ($_SESSION['test'] ?? 'Not set');
-    $debug[] = 'CSRF token in session: ' . ($_SESSION['csrf_token'] ?? 'Not set');
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['name'], $_POST['password'], $_POST['city'], $_POST['district'])) {
-    // Debugging: Display POST data
-    $debug[] = 'POST data: ' . print_r($_POST, true);
-
     // Validate CSRF token
     $csrf_token_post = $_POST['csrf_token'] ?? '';
     $csrf_token_session = $_SESSION['csrf_token'] ?? '';
@@ -35,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['name
     // Sanitize and validate inputs
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? htmlspecialchars($_POST['email']) : '';
     $name = htmlspecialchars($_POST['name']);
-    $password = $_POST['password'];
+    $password = $_POST['password']; // Password will be hashed later, no sanitization needed here
     $city = htmlspecialchars($_POST['city']);
     $district = htmlspecialchars($_POST['district']);
 
@@ -96,12 +86,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['name
             $mail->AltBody = "Your verification code is: $code. Please enter this code to verify your email.";
 
             $mail->send();
+            // Regenerate CSRF token after successful form submission
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             // Redirect to verification page
             header('Location: verify.php?email=' . urlencode($email));
             exit;
         } catch (Exception $e) {
             $errors[] = "Failed to send verification email: SMTP Error: " . $e->getMessage();
+            // Regenerate CSRF token on error to prevent reuse
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         }
+    } else {
+        // Regenerate CSRF token on error to prevent reuse
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 }
 ?>
@@ -139,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['name
         #consumer input:focus { background: #F2F2F2; border: 1px solid #5A7EC7; border-radius: 10px; }
         #market input:focus { background: #F2F2F2; border: 1px solid rgb(199, 90, 90); border-radius: 10px; }
         .error { color: red; }
-        .debug { color: blue; }
     </style>
     <script src="./jquery-3.7.1.js"></script>
 </head>

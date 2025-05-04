@@ -16,13 +16,15 @@ $pass = '';
 
 try {
     $db = new PDO($dsn, $user, $pass);
-    // Enable PDO error mode for better debugging
+    // Enable(PDO error mode for better debugging
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $ex) {
     echo '<p>Database Connection Error: ' . $ex->getMessage() . '</p>';
     exit;
 }
 
-// Generate a new CSRF token for every request
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// Generate CSRF token only if it doesn't exist
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
