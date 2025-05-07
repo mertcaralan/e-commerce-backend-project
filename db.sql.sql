@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: 127.0.0.1:3306
--- Üretim Zamanı: 04 May 2025, 11:40:20
--- Sunucu sürümü: 9.1.0
--- PHP Sürümü: 8.3.14
+-- Host: 127.0.0.1:3306
+-- Generation Time: May 07, 2025 at 01:53 PM
+-- Server version: 9.1.0
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,17 +18,18 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Veritabanı: `test`
+-- Database: `test`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `products`
+-- Table structure for table `products`
 --
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `market_id` int NOT NULL,
   `title` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   `stock` int NOT NULL,
@@ -36,13 +37,14 @@ CREATE TABLE IF NOT EXISTS `products` (
   `discounted` decimal(10,2) NOT NULL,
   `expDate` date NOT NULL,
   `img` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `products_fk` (`market_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `users`
+-- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
@@ -62,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `verification_codes`
+-- Table structure for table `verification_codes`
 --
 
 DROP TABLE IF EXISTS `verification_codes`;
@@ -76,11 +78,11 @@ CREATE TABLE IF NOT EXISTS `verification_codes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 --
--- Dökümü yapılmış tablolar için kısıtlamalar
+-- Constraints for dumped tables
 --
 
 --
--- Tablo kısıtlamaları `products`
+-- Constraints for table `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_fk` FOREIGN KEY (`market_id`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE;
