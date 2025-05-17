@@ -1,5 +1,7 @@
 <?php
+    session_start();
     require_once 'db.php';
+    
 
     // Restrict access to logged-in consumers
     if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'C') {
@@ -31,11 +33,38 @@
         $stmt->execute([$user["district"], $user["city"]]);
         $products = $stmt->fetchAll();
     }
+if (!empty($_GET['id'])) {
+    $product_id = intval($_GET['id']);
+    $quantity = 1;
 
-    if(!empty($_POST) && isset($_POST["id"]))
-    {
-        //add product to the cart;
+    // Session sepetine ekle
+    if (isset($_SESSION['cart'][$product_id])) {
+        $_SESSION['cart'][$product_id] += 1;
+    } else {
+        $_SESSION['cart'][$product_id] = 1;
     }
+
+    // Veritabanı sepetine ekle/güncelle
+    $stmt = $db->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
+    $stmt->execute([$uid, $product_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row) {
+        $new_quantity = $row['quantity'] + 1;
+        $update = $db->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
+        $update->execute([$new_quantity, $uid, $product_id]);
+    } else {
+        $insert = $db->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
+        $insert->execute([$uid, $product_id, $quantity]);
+    }
+
+    // Sepete ekledikten sonra geri yönlendir
+   header("Location: consumer_dashboard.php?page=$curr&added=$product_id");
+
+    exit;
+}
+
+
  
     $stmt = $db->prepare("select * from users where userid = ?");
     $stmt->execute([$uid]);
@@ -128,7 +157,8 @@
                             <td><?= $p["discounted"]?></td>
                             <td><?= $p["expDate"]?></td>
                             <td>
-                                <a href="?id=<?= $p["id"]?>"><span class="material-symbols-outlined">add_shopping_cart</span></a>
+                                <a href="?id=<?= $p["id"] ?>&page=<?= $curr ?>"><span class="material-symbols-outlined">add_shopping_cart</span></a>
+
                             </td>
                         </tr>
                     <?php endforeach?>
